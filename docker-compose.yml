@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+  
+  wordpress:
+    image: my-wordpress
+    container_name: wordpress
+    depends_on:
+      - db
+    build: .
+    ports:
+      - "9000:80"
+    volumes:
+    - ./wp-content:/var/www/html/wp-content
+    restart: on-failure:10
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+
+  db:
+    image: mysql:latest
+    container_name: mysql
+    volumes:
+    - db_data:/var/lib/mysql
+    restart: on-failure:10
+    environment:
+      MYSQL_ROOT_PASSWORD: somewordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+  
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - 9100:8080
+
+volumes:
+  db_data:
