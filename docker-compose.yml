@@ -10,6 +10,7 @@ services:
     ports:
       - "9000:80"
     volumes:
+      - ./configs/php.ini:/usr/local/etc/php/conf.d/php.ini
       - ./wp-content:/var/www/html/wp-content
     restart: on-failure:10
     environment:
@@ -52,7 +53,7 @@ services:
       mem_reservation: 2048M
       ES_JAVA_OPTS: '-Xms512m -Xmx512m'
     volumes:
-      - './es-config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml'
+      - './configs/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml'
       - 'elasticsearch_data:/usr/share/elasticsearch/data'
 
 volumes:
