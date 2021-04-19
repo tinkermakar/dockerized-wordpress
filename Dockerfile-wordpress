@@ -1,11 +1,16 @@
 FROM wordpress:5.7.0-php7.4
+ARG HOST_USER
 # 1. Hook into wp-config.php to add custom configs
 # 2. Enable Thumbnail generation for PDFs
+# 3. Add the same user that creates the container into it
+#    so as there were no ownership conflicts around wp-content folder.
 RUN sed -i "/\/\* That's all.*\*\//i \
   // CUSTOM CONFIG UPDATES \n\
   require_once ABSPATH . '\/wp-content\/themes\/digital-regulation-theme\/modules\/env-config.php'\; \n\
   " /usr/src/wordpress/wp-config-docker.php \
-  && \
+  &&\
   sed -i 's/<policy domain="coder" rights="none" pattern="PDF" \/>//' /etc/ImageMagick-6/policy.xml \
   &&\
-# IMPORTANT: change the ownership of uploads folder: https://stackoverflow.com/questions/53538665/docker-wordpress-the-uploaded-file-could-not-be-moved-to-wp-content-uploads
+  id -u $HOST_USER &>/dev/null || useradd $HOST_USER
+
+USER ${HOST_USER}:${HOST_USER}

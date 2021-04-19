@@ -7,6 +7,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-wordpress
+      args:
+        HOST_USER: ${VAZGEN:-www-data}
     ports:
       - "9000:80"
     volumes:
