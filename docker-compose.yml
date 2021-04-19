@@ -2,15 +2,17 @@ version: '3.8'
 services:
   
   wordpress:
-    image: dev-wordpress
-    container_name: dev-wordpress
+    image: ${PROJECT_NAME:-dev}_wordpress
+    container_name: ${PROJECT_NAME:-dev}_wordpress
     build:
       context: .
       dockerfile: Dockerfile-wordpress
       args:
-        HOST_USER: ${VAZGEN:-www-data}
+        WP_VERSION: ${WP_VERSION:-5.7.0}
+        HOST_USER: ${USER:-www-data}
+        WP_CONFIG_IMPORT_PATH: ${WP_CONFIG_IMPORT_PATH}
     ports:
-      - "9000:80"
+      - "${WORDPRESS_PORT:-9000}:80"
     volumes:
       - ./configs/php.ini:/usr/local/etc/php/conf.d/php.ini
       - ./wp-content:/var/www/html/wp-content
@@ -38,16 +40,16 @@ services:
     container_name: adminer
     restart: always
     ports:
-      - "9500:8080"
+      - "${ADMINER_PORT:-9500}:8080"
 
   elasticsearch:
-    image: dev-elasticsearch
-    container_name: dev-elasticsearch
+    image: ${PROJECT_NAME:-dev}_elasticsearch
+    container_name: ${PROJECT_NAME:-dev}_elasticsearch
     build:
       context: .
       dockerfile: Dockerfile-elasticsearch
-    ports:
-      - "9200:9200"
+    expose:
+      - "9200"
     environment:
       discovery.type: single-node
       xpack.security.enabled: 'false'
@@ -60,4 +62,6 @@ services:
 
 volumes:
   db_data:
+    name: ${PROJECT_NAME:-dev}_db_data
   elasticsearch_data:
+    name: ${PROJECT_NAME:-dev}_elasticsearch_data

@@ -1,5 +1,4 @@
+.env
 wp-content
 .key
 id_rsa
-
-.env
