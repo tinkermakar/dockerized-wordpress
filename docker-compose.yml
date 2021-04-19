@@ -42,26 +42,26 @@ services:
     ports:
       - "${ADMINER_PORT:-9500}:8080"
 
-  elasticsearch:
-    image: ${PROJECT_NAME:-dev}_elasticsearch
-    container_name: ${PROJECT_NAME:-dev}_elasticsearch
-    build:
-      context: .
-      dockerfile: Dockerfile-elasticsearch
-    expose:
-      - "9200"
-    environment:
-      discovery.type: single-node
-      xpack.security.enabled: 'false'
-      mem_limit: 2048M
-      mem_reservation: 2048M
-      ES_JAVA_OPTS: '-Xms512m -Xmx512m'
-    volumes:
-      - './configs/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml'
-      - 'elasticsearch_data:/usr/share/elasticsearch/data'
+  # elasticsearch:
+  #   image: ${PROJECT_NAME:-dev}_elasticsearch
+  #   container_name: ${PROJECT_NAME:-dev}_elasticsearch
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile-elasticsearch
+  #   expose:
+  #     - "9200"
+  #   environment:
+  #     discovery.type: single-node
+  #     xpack.security.enabled: 'false'
+  #     mem_limit: 2048M
+  #     mem_reservation: 2048M
+  #     ES_JAVA_OPTS: '-Xms512m -Xmx512m'
+  #   volumes:
+  #     - './configs/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml'
+  #     - 'elasticsearch_data:/usr/share/elasticsearch/data'
 
 volumes:
   db_data:
     name: ${PROJECT_NAME:-dev}_db_data
-  elasticsearch_data:
-    name: ${PROJECT_NAME:-dev}_elasticsearch_data
+  # elasticsearch_data:
+  #   name: ${PROJECT_NAME:-dev}_elasticsearch_data
