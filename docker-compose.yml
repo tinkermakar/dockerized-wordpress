@@ -18,14 +18,14 @@ services:
       - ./wp-content:/var/www/html/wp-content
     restart: on-failure:10
     environment:
-      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_HOST: ${PROJECT_NAME:-dev}_mysql:3306
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: wordpress
 
   db:
     image: mysql:latest
-    container_name: mysql
+    container_name: ${PROJECT_NAME:-dev}_mysql
     volumes:
       - db_data:/var/lib/mysql
     restart: on-failure:10
@@ -37,7 +37,7 @@ services:
   
   adminer:
     image: adminer
-    container_name: adminer
+    container_name: ${PROJECT_NAME:-dev}_adminer
     restart: always
     ports:
       - "${ADMINER_PORT:-9500}:8080"
