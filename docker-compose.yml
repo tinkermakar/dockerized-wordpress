@@ -8,7 +8,7 @@ services:
       context: .
       dockerfile: Dockerfile-wordpress
       args:
-        WP_VERSION: ${WP_VERSION:-5.7.0}
+        WP_VERSION: ${WP_VERSION:-5.8.1}
         HOST_USER: ${USER:-www-data}
         WP_CONFIG_IMPORT_PATH: ${WP_CONFIG_IMPORT_PATH}
     ports:
@@ -16,29 +16,29 @@ services:
     volumes:
       - ./configs/php.ini:/usr/local/etc/php/conf.d/php.ini
       - ./wp-content:/var/www/html/wp-content
-    restart: on-failure:10
+    restart: unless-stopped
     environment:
       WORDPRESS_DB_HOST: ${PROJECT_NAME:-dev}_mysql:3306
-      WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD: wordpress
-      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_NAME: ${DB_NAME:-wordpress}
+      WORDPRESS_DB_USER: ${DB_USER:-wordpress}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD:-wordpress}
 
   db:
     image: mysql:latest
     container_name: ${PROJECT_NAME:-dev}_mysql
     volumes:
       - db_data:/var/lib/mysql
-    restart: on-failure:10
+    restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: somewordpress
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress
+      MYSQL_ROOT_PASSWORD: whatever
+      MYSQL_DATABASE: ${DB_NAME:-wordpress}
+      MYSQL_USER: ${DB_USER:-wordpress}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-wordpress}
   
   adminer:
     image: adminer
     container_name: ${PROJECT_NAME:-dev}_adminer
-    restart: always
+    restart: unless-stopped
     ports:
       - "${ADMINER_PORT:-9500}:8080"
 
@@ -48,6 +48,7 @@ services:
   #   build:
   #     context: .
   #     dockerfile: Dockerfile-elasticsearch
+  #   restart: unless-stopped
   #   expose:
   #     - "9200"
   #   environment:
