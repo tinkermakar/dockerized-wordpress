@@ -30,7 +30,7 @@ services:
       - db_data:/var/lib/mysql
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: whatever
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-wordpress}
       MYSQL_DATABASE: ${DB_NAME:-wordpress}
       MYSQL_USER: ${DB_USER:-wordpress}
       MYSQL_PASSWORD: ${DB_PASSWORD:-wordpress}
