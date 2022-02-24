@@ -6,13 +6,7 @@ ARG HOST_USER
 # 2. Enable Thumbnail generation for PDFs
 # 3. Add the same user that creates the container into it
 #    so as there were no ownership conflicts around wp-content folder.
-RUN sed -i "/\/\* That's all.*\*\//i \
-  // CUSTOM CONFIG UPDATES \n\
-  require_once ABSPATH . \'${WP_CONFIG_IMPORT_PATH}\'\; \n\
-  " /usr/src/wordpress/wp-config-docker.php \
-  &&\
-  sed -i 's/<policy domain="coder" rights="none" pattern="PDF" \/>//' /etc/ImageMagick-6/policy.xml \
-  &&\
-  useradd $HOST_USER
+RUN sed -i 's/<policy domain="coder" rights="none" pattern="PDF" \/>//' /etc/ImageMagick-6/policy.xml &&\
+  useradd $HOST_USER || echo "User $HOST_USER already exists."
 
 USER ${HOST_USER}:${HOST_USER}

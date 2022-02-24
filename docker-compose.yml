@@ -8,9 +8,8 @@ services:
       context: .
       dockerfile: Dockerfile-wordpress
       args:
-        WP_VERSION: ${WP_VERSION:-5.8.1}
+        WP_VERSION: ${WP_VERSION:-5.9.0}
         HOST_USER: ${USER:-www-data}
-        WP_CONFIG_IMPORT_PATH: ${WP_CONFIG_IMPORT_PATH}
     ports:
       - "${WORDPRESS_PORT:-9000}:80"
     volumes:
@@ -22,6 +21,11 @@ services:
       WORDPRESS_DB_NAME: ${DB_NAME:-wordpress}
       WORDPRESS_DB_USER: ${DB_USER:-wordpress}
       WORDPRESS_DB_PASSWORD: ${DB_PASSWORD:-wordpress}
+      # Injecting extra code into wp-config.php
+      WP_CONFIG_IMPORT_PATH: $WP_CONFIG_IMPORT_PATH;
+      WORDPRESS_CONFIG_EXTRA: |
+        $$extra_path = substr(getenv('WP_CONFIG_IMPORT_PATH'), 0, -1);
+        require_once ABSPATH . $$extra_path;
 
   db:
     image: mysql:latest
