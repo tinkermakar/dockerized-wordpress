@@ -43,3 +43,21 @@ Setting the `WP_CONFIG_IMPORT_PATH` variable's value in the `.env` file is manda
 In addition to the WordPress website and it's SQL database, you can also start a local ElasticSearch cluster by uncommenting all the commented rows in `docker-compose.yml`.
 
 Authentication is disabled for ElasticSearch. It is meant for connecting via [ElasticPress plugin](https://wordpress.org/plugins/elasticpress/) as a Third-Party/Self-Hosted cluster by providing the following address as Elastic Host URL: `http://{PROJECT_NAME}_elasticsearch:9200`. `dev` is the fallback value for `PROJECT_NAME`, so the URL is `http://dev_elasticsearch:9200` by default.
+
+
+# Nginx example
+
+```nginx
+server {
+    server_name {{ BASE_URL }};
+    location / {
+        proxy_pass http://127.0.0.1:{{ PORT }}/;
+
+        proxy_set_header    Host                $host;
+        proxy_set_header    X-Forwarded-For     $proxy_add_x_forwarded_for;
+        proxy_set_header    X-Forwarded-Proto   $scheme;
+        proxy_set_header    Accept-Encoding     "";
+        proxy_set_header    Proxy               "";
+    }
+}
+```
