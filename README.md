@@ -27,7 +27,7 @@ Variables defined in the `.env` file are used in the following files: `docker-co
 Variable              | Default value | Description
 ----------------------|---------------|------------
 WP_CONFIG_IMPORT_PATH | [none]        | Must start with `/wp-content`. Providing this variable's value is mandatory. The file's content found by this path will be imported into the local website's `wp-config.php` file. It is to override all the values found in `wp-config.php` rather than editing the file. Normally I keep the file with the website's custom theme.
-WP_VERSION            | `5.9.0`       | WordPress version to pull from Docker
+WP_VERSION            | `6.3.1`       | WordPress version to pull from Docker
 PROJECT_NAME          | `dev`         | Must be lowercase. A string that will prefix all the Docker images, containers and volumes built in this project
 WORDPRESS_PORT        | `9000`        | Choose a port to access the WordPress website locally. E.g. http://localhost:9000
 ADMINER_PORT          | `9500`        | Choose a port to access Adminer (an alternative to PHP MyAdmin).

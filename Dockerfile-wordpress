@@ -1,5 +1,5 @@
 ARG WP_VERSION
-FROM wordpress:${WP_VERSION}-php7.4
+FROM wordpress:${WP_VERSION}-php8.0
 ARG WP_CONFIG_IMPORT_PATH
 ARG HOST_USER
 # 1. Hook into wp-config.php to add custom configs

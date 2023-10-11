@@ -8,10 +8,10 @@ services:
       context: .
       dockerfile: Dockerfile-wordpress
       args:
-        WP_VERSION: ${WP_VERSION:-5.9.0}
+        WP_VERSION: ${WP_VERSION:-6.3.1}
         HOST_USER: ${USER:-www-data}
     ports:
-      - "${WORDPRESS_PORT:-9000}:80"
+      - "127.0.0.1:${WORDPRESS_PORT:-9000}:80"
     volumes:
       - ./configs/php.ini:/usr/local/etc/php/conf.d/php.ini
       - ./wp-content:/var/www/html/wp-content
@@ -44,7 +44,7 @@ services:
     container_name: ${PROJECT_NAME:-dev}_adminer
     restart: unless-stopped
     ports:
-      - "${ADMINER_PORT:-9500}:8080"
+      - "127.0.0.1:${ADMINER_PORT:-9500}:8080"
 
   # elasticsearch:
   #   image: ${PROJECT_NAME:-dev}_elasticsearch
