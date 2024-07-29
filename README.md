@@ -33,6 +33,12 @@ In addition to the WordPress website and it's SQL database, you can also start a
 
 Authentication is disabled for ElasticSearch. It is meant for connecting via [ElasticPress plugin](https://wordpress.org/plugins/elasticpress/) as a Third-Party/Self-Hosted cluster by providing the following address as Elastic Host URL: `http://{PROJECT_NAME}_elasticsearch:9200`. `dev` is the fallback value for `PROJECT_NAME`, so the URL is `http://dev_elasticsearch:9200` by default.
 
+## DB import
+
+The recommended way to import back DB data:
+```bash
+docker exec -i  {example_mysql mysql -uusername -ppassword --default-character-set=utf8mb4 lex < example.sql
+```
 
 ## Nginx example
 
