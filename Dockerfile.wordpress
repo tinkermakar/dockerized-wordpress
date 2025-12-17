@@ -4,6 +4,6 @@ ARG PHP_VERSION
 FROM wordpress:${WP_VERSION}-php${PHP_VERSION}
 # Enable Thumbnail generation for PDFs
 RUN \
-  sed -i 's/<policy domain="coder" rights="none" pattern="PDF" \/>//' /etc/ImageMagick-6/policy.xml &&\
+  sed -i 's/<policy domain="coder" rights="none" pattern="PDF" \/>//' /etc/ImageMagick-*/policy.xml &&\
   useradd wp-user
 USER wp-user
