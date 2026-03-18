@@ -7,8 +7,8 @@ services:
       context: .
       dockerfile: Dockerfile.wordpress
       args:
-        WP_VERSION: ${WP_VERSION:-6.5.2}
-        PHP_VERSION: ${PHP_VERSION:-8.3}
+        WP_VERSION: ${WP_VERSION:-6.9.4}
+        PHP_VERSION: ${PHP_VERSION:-8.5}
     ports:
       - "127.0.0.1:${WORDPRESS_PORT:-9000}:80"
     volumes:
@@ -16,6 +16,8 @@ services:
       - ./wp-content:/var/www/html/wp-content
     restart: unless-stopped
     environment:
+      # WORDPRESS_DEBUG: 1
+      IS_DOCKER: true
       WORDPRESS_DB_HOST: ${PROJECT_NAME:-dev}_mysql:3306
       WORDPRESS_DB_NAME: ${DB_NAME:-wordpress}
       WORDPRESS_DB_USER: ${DB_USER:-wordpress}
