@@ -37,6 +37,8 @@ Authentication is disabled for ElasticSearch. It is meant for connecting via [El
 
 Set `DB_BACKUP_DIR=/srv/backups/mysite` in `.env`. `make` creates the directory via `prepare-backup`; `make backup` creates a dump.
 
+Each successful backup replaces `PROJECT_NAME.sql.gz`, using `PROJECT_NAME` from `.env`. The SQL filename stored inside includes the UTC date and time.
+
 Add to crontab for daily 03:00 DB backups, with a user with Docker access:
 
 ```cron

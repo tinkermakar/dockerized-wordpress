@@ -30,9 +30,10 @@ backup:
 		-uroot \
 		--default-character-set=utf8mb4 \
 		--lock-all-tables \
-		"$$MYSQL_DATABASE"' </dev/null > "$(DB_BACKUP_DIR)/mysql"
-	chmod 600 "$(DB_BACKUP_DIR)/mysql"
-	gzip -S "-$$(date -u +%Y%m%dT%H%M%SZ).sql.gz" "$(DB_BACKUP_DIR)/mysql"
+		"$$MYSQL_DATABASE"' </dev/null > "$(DB_BACKUP_DIR)/$(PROJECT_NAME)-$$(date -u +%Y%m%dT%H%M%SZ).sql"
+	gzip -c "$(DB_BACKUP_DIR)/$(PROJECT_NAME)"-*.sql > "$(DB_BACKUP_DIR)/$(PROJECT_NAME).sql.gz"
+	chmod 600 "$(DB_BACKUP_DIR)/$(PROJECT_NAME).sql.gz"
+	rm "$(DB_BACKUP_DIR)/$(PROJECT_NAME)"-*.sql
 
 danger-purge:
 	docker compose down -v --rmi local
